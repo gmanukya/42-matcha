@@ -26,7 +26,6 @@ class MatchProfile extends React.Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState !== this.state) {
-			console.log(this.state);
 			this.getLike();
 		}
 
@@ -96,16 +95,16 @@ class MatchProfile extends React.Component {
 	}
 
 	likeClick() {
-		this.setState({liked: this.state.liked ? false : true}, () => {
-			fetch('/match/likeProfile', {
-				credentials: 'include',
-				method: 'post',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({login: this.props.login})
-			});
+		fetch('/match/likeProfile', {
+			credentials: 'include',
+			method: 'post',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({login: this.props.login})
+		}).then(() => {
+			this.setState({liked: this.state.liked ? false : true});
 		});
 	}
 
@@ -133,7 +132,7 @@ class MatchProfile extends React.Component {
 								<button className="emptyBack" onClick={this.likeClick}>
 									{this.state.liked ?
 										this.state.likedBy ? <i className="fas fa-heart"></i> : <i className="fas fa-thumbs-up"></i>
-									: 
+									:
 										this.state.likedBy ? <i className="far fa-heart"></i> : <i className="far fa-thumbs-up"></i>
 									}
 								</button>
