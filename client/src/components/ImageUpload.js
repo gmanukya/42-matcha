@@ -33,8 +33,7 @@ class ImageUpload extends Component {
 			},
 			body: JSON.stringify({url: url})
 		})
-		.then(() => this.setState({profilePic: url}, this.updatePictures()));
-
+		.then(() => this.setState({profilePic: url}, this.updatePictures()))
 	}
 
 
@@ -97,6 +96,9 @@ class ImageUpload extends Component {
 					if (data.profilePic) {
 						this.setState({profilePic: data.profilePic});
 					}
+					if (this.props.onChange) {
+						this.props.onChange('profile_pic', this.state.profilePic);
+					}
 
 					for(var i in data.urls){
 						pictures.push(
@@ -122,21 +124,14 @@ class ImageUpload extends Component {
 							</div>
 						);
 					}
-
 					var picCount = data.urls.length;
 					this.setState({pictures, picCount}, () => {
 						this.hideDropzone();
-
 						if (this.state.firstPic) {
 							this.myImg.click();
 						}
-
 					});
 				});
-			}
-		}).then(() => {
-			if (this.props.onChange) {
-				this.props.onChange('profile_pic', this.state.profilePic);
 			}
 		});
 	}
@@ -179,7 +174,7 @@ class ImageUpload extends Component {
 	render() {
 		return (
 			<div>
-				<b>Your pictures</b>
+				<b>Photos</b>
 				<br/>
 				{this.state.pictures}
 				<div className="inline fifth spaceLeft">
@@ -188,6 +183,7 @@ class ImageUpload extends Component {
 						onDrop={this.onDrop}
 						multiple={false}
 						accept="image/jpeg, image/png"
+						maxSize={10000000}
 						>
 					</Dropzone>
 				</div>

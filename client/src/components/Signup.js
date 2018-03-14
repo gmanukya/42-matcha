@@ -78,6 +78,7 @@ class Signup extends Component {
 								value={this.state.first_name}
 								onChange={this.handleChange}
 								maxLength={20}
+								forbiddenChars={["[^a-zà-ÿ ]", "gi"]}
 								/>
 						</div>
 						<div className="inline half spaceLeft">
@@ -88,6 +89,7 @@ class Signup extends Component {
 								value={this.state.last_name}
 								onChange={this.handleChange}
 								maxLength={20}
+								forbiddenChars={["[^a-zà-ÿ ]", "gi"]}
 								/>
 						</div>
 						<div className="inline half">
@@ -97,6 +99,7 @@ class Signup extends Component {
 								value={this.state.login}
 								onChange={this.handleChange}
 								maxLength={12}
+								forbiddenChars={["[^a-zà-ÿ0-9_]", "gi"]}
 								/>
 						</div>
 						<div className="inline half spaceLeft">

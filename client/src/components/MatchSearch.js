@@ -6,12 +6,16 @@ import SearchPopularity from './SearchPopularity';
 import SearchDistance from './SearchDistance';
 import SearchInterests from './SearchInterests';
 import SearchOrderBy from './SearchOrderBy';
+import SearchLike from './SearchLike';
 
 class MatchSearch extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			youLiked : localStorage.getItem('youLiked') === '1' ? 1 : 0,
+			likedYou : localStorage.getItem('likedYou') === '1' ? 1 : 0,
+			lookedYou : localStorage.getItem('lookedYou') === '1' ? 1 : 0,
 			age: {
 				min: localStorage.getItem('ageMin') > 17 && localStorage.getItem('ageMin') < 56 ? parseInt(localStorage.getItem('ageMin'), 10) : 18,
 				max: localStorage.getItem('ageMax') > 17 && localStorage.getItem('ageMax') < 56 ? parseInt(localStorage.getItem('ageMax'), 10) : 55,
@@ -44,6 +48,9 @@ class MatchSearch extends React.Component {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
+				youLiked: this.state.youLiked,
+				likedYou: this.state.likedYou,
+				lookedYou: this.state.lookedYou,
 				age: this.state.age,
 				popularity: this.state.popularity,
 				distance: this.state.distanceMax,
@@ -74,8 +81,7 @@ class MatchSearch extends React.Component {
 
 	handleChange(name, value) {
 		this.setState({
-			[name]: value,
-			errors: []
+			[name]: value
 		});
 	}
 
@@ -83,43 +89,50 @@ class MatchSearch extends React.Component {
 
 		return (
 			<div className="matchSearch inline">
-						<SearchAge
-							min={this.state.age.min}
-							max={this.state.age.max}
+				<SearchLike
+					youLiked={this.state.youLiked}
+					likedYou={this.state.likedYou}
+					lookedYou={this.state.lookedYou}
+					onChange={this.handleChange}
+					/>
+				<div className="lign searchInfos"></div>
+				<SearchAge
+					min={this.state.age.min}
+					max={this.state.age.max}
+					onChange={this.handleChange}
+					/>
+				<div className="lign searchInfos"></div>
+				<SearchPopularity
+					min={this.state.popularity.min}
+					max={this.state.popularity.max}
+					onChange={this.handleChange}
+					/>
+				<div className="lign searchInfos"></div>
+				{
+					this.props.locationIsPrivate ? null :
+					<div>
+						<SearchDistance
+							max={this.state.distanceMax}
 							onChange={this.handleChange}
 							/>
-						<div className="lign"></div>
-						<SearchPopularity
-							min={this.state.popularity.min}
-							max={this.state.popularity.max}
-							onChange={this.handleChange}
-							/>
-						<div className="lign"></div>
-						{
-							this.props.locationIsPrivate ? null :
-							<div>
-								<SearchDistance
-									max={this.state.distanceMax}
-									onChange={this.handleChange}
-									/>
-								<div className="lign"></div>
-							</div>
-						}
-						<SearchInterests
-							value={this.state.interests}
-							onChange={this.handleChange}
-							onSubmit={true}
-							submitOnEnter
-							/>
-						<div className="lign"></div>
-						<SearchOrderBy
-							value={this.state.orderBy}
-							onChange={this.handleChange}
-							locationIsPrivate={this.props.locationIsPrivate}
-							/>
-				</div>
-			);
-		}
+						<div className="lign searchInfos"></div>
+					</div>
+				}
+				<SearchInterests
+					value={this.state.interests}
+					onChange={this.handleChange}
+					onSubmit={true}
+					submitOnEnter
+					/>
+				<div className="lign searchInfos"></div>
+				<SearchOrderBy
+					value={this.state.orderBy}
+					onChange={this.handleChange}
+					locationIsPrivate={this.props.locationIsPrivate}
+					/>
+			</div>
+		);
 	}
+}
 
-	export default MatchSearch;
+export default MatchSearch;

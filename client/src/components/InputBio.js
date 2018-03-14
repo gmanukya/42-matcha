@@ -25,25 +25,22 @@ class InputBio extends React.Component {
 	render() {
 		return (
 			<div>
-			<b>Biography</b> ({140 - this.props.value.length})
-			<br/>
-			<div className="inline threequarters floatLeft">
-			<TextArea
-				name="bio"
-				value={this.props.value}
-				height={5}
-				onChange={this.handleChange}
-				onBlur={this.handleBlur}
-				onSubmit={this.handleSubmit}
-				maxLength={140}
-				/>
-		</div>
-		<div className="inline spaceLeft">
-			<button onClick={() => this.handleSubmit('/update/bio', {value: this.props.value})}>Submit</button>
-			</div>
-		</div>
-		);
+				<b>Biography</b> ({140 - this.props.value.length})
+					<br/>
+					<div className="inline full floatLeft">
+						<TextArea
+							name="bio"
+							value={this.props.value}
+							height={5}
+							onChange={this.handleChange}
+							onSubmit={this.handleSubmit}
+							maxLength={140}
+							submitOnBlur
+							/>
+					</div>
+				</div>
+			);
+		}
 	}
-}
 
-export default InputBio;
+	export default InputBio;

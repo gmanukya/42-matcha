@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import io from 'socket.io-client'
 import moment from 'moment';
+import 'rc-dropdown/assets/index.css';
 
 import Match from './Match';
 import Profil from './Profil';
@@ -14,6 +16,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			login: "",
+			connectedUser: {},
 			profile: false,
 			finshedLoading: false
 		};
@@ -28,6 +31,13 @@ class App extends Component {
 			if (res.headers.get("content-type").indexOf("application/json") !== -1) {
 				res.json().then(data => {
 					localStorage.setItem('login', data.login);
+					if (data.login) {
+						this.socket = io('localhost:3001');
+						this.socket.emit('login', data.login);
+						this.socket.on('connectedUser', (connectedUser) => {
+							this.setState({connectedUser})
+						})
+					}
 					if (data.profile && moment().diff(moment(data.birth_date.year + '/' + data.birth_date.month + '/' + data.birth_date.day, "YYYY-MM-DD"), 'years') > 17) {
 						this.setState({
 							login: data.login,
@@ -51,23 +61,38 @@ class App extends Component {
 		return (
 			<div>
 				{this.state.finshedLoading === true ?
-				<Switch>
-					{localStorage.getItem('login') ? [
-						<Route exact path='/' key="match" component={this.state.profile ? Match : Profil}/>,
-						<Route exact path='/profil' key="profil" component={Profil}/>,
-						<Route key="NotFound" component={this.state.profile ? Match : Profil}/>
-					] :
+					<Switch>
+						{localStorage.getItem('login') ? [
+							<Route exact path='/profil' key="match" render={(props) => (
+									<Profil {...props} />
+								)}
+								/>,
+							<Route exact path='/:user' key="match" render={(props) => (
+									this.state.profile ?
+									<Match {...props} connectedUser={this.state.connectedUser} socket={this.socket}/>
+									:
+									<Profil {...props} />
+								)}
+								/>,
+							<Route key="notFound" render={(props) => (
+									this.state.profile ?
+									<Match {...props} connectedUser={this.state.connectedUser} socket={this.socket}/>
+									:
+									<Profil {...props} />
+								)}
+								/>,
+						] :
 						[
-						<Route exact path='/' key="signup" component={Signup}/>,
-						<Route exact path='/login' key="login" component={Login}/>,
-						<Route exact path='/forgotPassword' key="forgotPassword" component={ForgotPassword}/>,
-						<Route key="NotFound" component={Signup}/>
-					]}
-				</Switch>
-				: null}
-			</div>
-		);
+							<Route exact path='/' key="signup" component={Signup}/>,
+							<Route exact path='/login' key="login" component={Login}/>,
+							<Route exact path='/forgotPassword' key="forgotPassword" component={ForgotPassword}/>,
+							<Route key="NotFound" component={Signup}/>
+						]}
+					</Switch>
+					: null}
+				</div>
+			);
+		}
 	}
-}
 
-export default App;
+	export default App;

@@ -22,14 +22,14 @@ class SearchDistance extends React.Component {
 
 		return (
 			<div>
-				<b>Distance :</b> less than {this.props.max} km
+				<b>Distance :</b> <span className="searchInfos">less than {this.props.max > 159 ? '160+' : this.props.max} km</span>
 				<Slider
 					min={2}
 					max={160}
 					defaultValue={this.props.max}
 					trackStyle={[trackStyle]}
 					handleStyle={[dotStyle]}
-					onChange={this.handleChange}
+					onAfterChange={this.handleChange}
 					/>
 			</div>
 		);

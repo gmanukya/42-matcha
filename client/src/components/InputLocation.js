@@ -53,6 +53,7 @@ class InputLocation extends React.Component {
 			};
 			if (location.provider === "freegeoip") {
 				body.private = 1;
+				localStorage.setItem('distanceMax', 160);
 				this.handleChange(name, "Location blocked");
 			}
 			else {
@@ -83,7 +84,7 @@ class InputLocation extends React.Component {
 				<button onClick={() => this.handleSubmit('/update/location', {value: this.props.value.address})}>Search</button>
 			</div>
 			<div className="inline spaceLeft">
-				|
+			<span className="greyFont">|</span>
 			</div>
 			<div className="inline spaceLeft">
 				<button onClick={this.locateMe}>Locate me <i className="fas fa-map-marker-alt"></i>
@@ -93,6 +94,5 @@ class InputLocation extends React.Component {
 		);
 	}
 }
-//<span role="img" aria-label="pin">&#128205;</span>
 
 export default InputLocation;

@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 	if (req.session && req.session.login) {
 		db.query('SELECT img_url ' +
 		'FROM pictures ' +
-		'WHERE pictures.user_id = (SELECT user_id FROM users WHERE login = ?) LIMIT 5',
+		'WHERE pictures.user_id = (SELECT user_id FROM users WHERE login = ? LIMIT 1) LIMIT 5',
 		req.session.login, function (error, results, fields) {
 			if (error) throw error;
 			var urls = [];
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 			});
 			db.query('SELECT img_url ' +
 			'FROM pictures ' +
-			'WHERE pictures.pic_id = (SELECT profile_pic FROM users WHERE login = ?)',
+			'WHERE pictures.pic_id = (SELECT profile_pic FROM users WHERE login = ? LIMIT 1)',
 			req.session.login, function (error, results, fields) {
 				if (error) throw error;
 				if (results.length !== 0) {

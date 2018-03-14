@@ -11,6 +11,7 @@ router.get('/', function(req, res, next) {
 			if (error) throw error;
 			if (results[0].profile_pic && results[0].first_name && results[0].last_name && results[0].email && results[0].birth_day && results[0].birth_month && results[0].birth_year && results[0].gender && results[0].sexual_orientation && results[0].location_lat && results[0].location_lon && results[0].bio) {
 				res.json({
+					id: results[0].user_id,
 					login: req.session.login,
 					profile: true,
 					birth_date: {

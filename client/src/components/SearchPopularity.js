@@ -45,7 +45,7 @@ class SearchPopularity extends React.Component {
 
 		return (
 			<div>
-				<b>Popularity :</b> {min} - {max}
+				<b>Popularity :</b> <span className="searchInfos">{min} - {max}</span>
 					<Range
 						min={1}
 						max={5}
@@ -53,7 +53,7 @@ class SearchPopularity extends React.Component {
 						dots={true} trackStyle={[trackStyle]}
 						handleStyle={[dotStyle, dotStyle]}
 						activeDotStyle={dotStyle}
-						onChange={this.handleChange}
+						onAfterChange={this.handleChange}
 						/>
 				</div>
 			);

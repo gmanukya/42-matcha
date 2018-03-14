@@ -2,7 +2,6 @@ import React from 'react';
 
 class MatchTable extends React.Component {
 
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -37,17 +36,31 @@ class MatchTable extends React.Component {
 								<img alt="" className="menuPicture" src={user.profilePic}/>
 							</div>
 							<div className="tableText">
-								<h3>{user.gender === 1 ? <i className="fas fa-mars"></i> : <i className="fas fa-venus"></i>} {user.first_name}</h3>
-								<br/>
-								<span className="greyFont">{user.age} years old{this.props.locationIsPrivate ? null : " - " + user.distance + " km"}</span>
+								<div className="fontMedium">
+									{
+										user.gender === 1 ?
+										<i className="fas fa-mars"></i>
+										:
+										<i className="fas fa-venus"></i>
+									} <b>{user.first_name} {this.props.connectedUser[user.login] ? <span className="greenFont">&bull;</span> : null}</b>
+									<span className={user.likedYou ? "spaceLeft redFont" : "spaceLeft greenFont"}>
+										{
+											user.youLiked ?
+											(user.likedYou ? <span><i className="fas fa-heart"></i></span> : <span><i className="fas fa-thumbs-up"></i></span>)
+											:
+											(user.likedYou ? <span><i className="far fa-heart"></i></span> : null)
+										}
+									</span>
+								</div>
+								{user.login}
+								<div className="greyFont spaceUp inline">{user.age} years old{this.props.locationIsPrivate ? null : " - " + user.distance + " km"}</div>
 							</div>
 						</div>
 					</div>
-				)
-			}
-		</div>
-	);
-}
+				)}
+			</div>
+		);
+	}
 }
 
 export default MatchTable;

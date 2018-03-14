@@ -8,7 +8,7 @@ router.post('/', function(req, res, next) {
 	var errorsArray = [];
 	if (req.session && req.session.login) {
 		const post = req.body;
-		if (post.value && !(/^.+@.+\..+$/.test(post.value))) {
+		if (post.value || !(/^.+@.+\..+$/.test(post.value))) {
 			res.json({errors:"This email is not valid"});
 		}
 		else {

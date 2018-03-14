@@ -1,11 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
 
-const db = mysql.createConnection({
+var db = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : 'root',
-	database : 'matcha'
+	database : 'matcha',
+	multipleStatements: true
 });
 
 db.connect();

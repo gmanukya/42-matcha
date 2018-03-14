@@ -57,12 +57,10 @@ class Profil extends React.Component {
 			credentials: 'include'
 		})
 		.then(res => {
-
 			if (res.headers.get("content-type").indexOf("application/json") !== -1) {
 				res.json().then(
 					data => {
 						if (data.location.latitude && data.location.longitude) {
-							console.log(0);
 							if (data.location.private) {
 								this.setState({
 									...data,
@@ -73,11 +71,7 @@ class Profil extends React.Component {
 								});
 							}
 							else {
-								console.log(1);
-								console.log(data.location.latitude);
-								console.log(data.location.longitude);
 								Geolocator.coordsToAddress(data.location.latitude, data.location.longitude, (location) => {
-									console.log(2);
 									this.setState({
 										...data,
 										finishedLoading: true,
@@ -153,17 +147,28 @@ class Profil extends React.Component {
 	}
 
 	render() {
+
+		var popularity = [];
+		for(var i = 1; i < 6 ; i++) {
+			if(i > this.state.popularity) {
+				popularity.push(<i key={i} className="far fa-star"></i>);
+			}
+			else {
+				popularity.push(<i key={i} className="fas fa-star"></i>);
+			}
+		}
+
 		return (
 			<div className="profile spaceUp">
 				{
 					this.state.finishedLoading === true ?
 					<div>
 						<div className="marginAuto alignCenter">
-							<h2>{localStorage.getItem('login')} - SCORE DE POPULARITE</h2>
+							<h2>{localStorage.getItem('login')} {popularity}</h2>
 							<div className="spaceUp red">
-								{!this.state.profileIncompleted && !this.state.underage ? <button><a href="/">Start Matching</a></button> : null}
+								{!this.state.profileIncompleted && !this.state.underage ? <a href="/"><button className="spaceRight">Start Matching</button></a> : null}
 								<div className="inline">
-									<button><Logout /></button>
+									<Logout />
 								</div>
 							</div>
 							{this.state.profileIncompleted ? <button className='redBack'>Fill your informations before matching</button> : null}

@@ -56,7 +56,6 @@ class Login extends Component {
 
 		if (this.state.connected) {
 			return <App />
-
 		}
 		return (
 			<div className="login">

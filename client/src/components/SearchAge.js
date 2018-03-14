@@ -27,14 +27,14 @@ class SearchAge extends React.Component {
 
 		return (
 			<div>
-				<b>Age :</b> {this.props.min} - {this.props.max === 55 ? '55+' : this.props.max}
+				<b>Age :</b> <span className="searchInfos">{this.props.min} - {this.props.max > 54 ? '55+' : this.props.max}</span>
 				<Range
 					min={18}
 					max={55}
 					defaultValue={[this.props.min, this.props.max]}
 					trackStyle={[trackStyle]}
 					handleStyle={[dotStyle, dotStyle]}
-					onChange={this.handleChange}
+					onAfterChange={this.handleChange}
 					/>
 			</div>
 		);

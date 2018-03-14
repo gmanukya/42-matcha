@@ -11,56 +11,59 @@ class MatchResults extends React.Component {
 		super(props);
 		this.state = {
 			results: [],
-			finishedLoading: true
+			finishedLoading: false
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps !== this.props ) {
+			if (prevProps.like !== this.props.like) {
+				var results = this.state.results;
+				results.forEach((value, key) => {
+					if (this.props.like.login === value.login) {
+						results[key].youLiked = results[key].youLiked ? false : true;
+						this.setState({results})
+					}
+				});
+			}
+		}
+	}
+
 	handleSubmit(results) {
+		if (!this.state.finishedLoading) {
+			this.props.socket.on('like', data => {
+				var results = this.state.results;
+				results.forEach((value, key) => {
+					if (data.login === value.login) {
+						results[key].likedYou = data.liked;
+						this.setState({results})
+					}
+				});
+			})
+		}
 		this.setState({
 			results: results,
 			finishedLoading: true
 		});
 	}
 
-	// componentDidMount() {
-	// 	fetch('/match/getAllCompleteProfiles', {
-	// 		method: 'post',
-	// 		credentials: 'include',
-	// 		headers: {
-	// 			'Accept': 'application/json, text/plain, */*',
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		body: JSON.stringify({
-	// 			login: this.state.login,
-	// 			password: this.state.password,
-	// 		})
-	// 	})
-	// 	.then(res => {
-	// 		if (res.headers.get("content-type").indexOf("application/json") !== -1) {
-	// 			res.json().then((data) => {
-	// 				this.setState({
-	// 					results: data.results,
-	// 					finishedLoading: true
-	// 				});
-	// 			});
-	// 		}
-	// 	})
-	// }
-
 	render() {
 		return (
 			<div className="matchResults">
-				{this.state.finishedLoading ?
-					<div>
-						<MatchMenu />
-						<MatchSearch onSubmit={this.handleSubmit} locationIsPrivate={this.props.locationIsPrivate}/>
-						<MatchTable results={this.state.results} onClick={this.props.onClick} locationIsPrivate={this.props.locationIsPrivate}/>
-					</div>
-					: null}
+				<div>
+					<MatchMenu socket={this.props.socket}/>
+					<MatchSearch onSubmit={this.handleSubmit} locationIsPrivate={this.props.locationIsPrivate}/>
+					{
+						this.state.finishedLoading ?
+						<MatchTable results={this.state.results} onClick={this.props.onClick} locationIsPrivate={this.props.locationIsPrivate} connectedUser={this.props.connectedUser}/>
+						:
+						null
+					}
 				</div>
-			);
-		}
+			</div>
+		);
 	}
+}
 
-	export default MatchResults;
+export default MatchResults;

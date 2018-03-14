@@ -3,7 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"start": "node ./bin/www"
+		"start": "node app.js",
+		"demon": "nodemon app.js"
 	},
 	"dependencies": {
 		"bcrypt": "^1.0.3",
@@ -22,6 +23,7 @@
 		"mysql": "github:mysqljs/mysql",
 		"nodemailer": "^4.4.2",
 		"randomstring": "^1.1.5",
-		"serve-favicon": "~2.4.5"
+		"serve-favicon": "~2.4.5",
+		"socket.io": "^2.0.4"
 	}
 }

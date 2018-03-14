@@ -8,6 +8,9 @@ class Logout extends React.Component {
 			credentials: 'include'
 		})
 		.then(() => {
+			localStorage.removeItem('youLiked');
+			localStorage.removeItem('likedYou');
+			localStorage.removeItem('lookedYou');
 			localStorage.removeItem('login')
 			localStorage.removeItem('ageMin');
 			localStorage.removeItem('ageMax');
@@ -17,15 +20,14 @@ class Logout extends React.Component {
 			localStorage.removeItem('interest0');
 			localStorage.removeItem('interest1');
 			localStorage.removeItem('interest2');
-			localStorage.removeItem('interest3');
-			localStorage.removeItem('interest4');
 			localStorage.removeItem('orderBy');
+			window.location.replace('login')
 		});
 	}
 
 	render() {
 		return (
-			<a href="/login" onClick={this.logout}>Log out</a>
+			<span className="pointer" onClick={this.logout}>Log out</span>
 		);
 	}
 }

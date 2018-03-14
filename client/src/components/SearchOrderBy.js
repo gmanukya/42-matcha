@@ -16,18 +16,18 @@ class SearchOrderBy extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<b>Sort By : </b>
+			<div className="noWrap">
+				<b>Sort by : </b>
 				<select
 					value={this.props.value}
 					onChange={this.handleChange}
 					>
-					<option value="0" disabled>-</option>
+					<option value="0" disabled> </option>
 					<option value="ageAsc">Age - Younger first</option>
 					<option value="ageDesc">Age - Elder first</option>
 					<option disabled> </option>
-					<option value="popularityDesc">Popularity - ★★★★★ first</option>
-					<option value="popularityAsc">Popularity - ★ first</option>
+					<option value="popularityDesc">Most popular</option>
+					<option value="popularityAsc">Less popular</option>
 					<option disabled> </option>
 					{
 						this.props.locationIsPrivate ?
@@ -37,7 +37,7 @@ class SearchOrderBy extends React.Component {
 								<option key="space" disabled> </option>
 							]
 						}
-						<option value="interests">Number of common interests</option>
+						<option value="interests">Common interests</option>
 					</select>
 				</div>
 			);

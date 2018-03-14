@@ -6,7 +6,7 @@ const db = require('../../src/db');
 
 router.post('/', function(req, res, next) {
 	if (req.session && req.session.login && req.body.login) {
-		
+
 		db.query('SELECT * ' +
 		'FROM likes ' +
 		'WHERE user_id = (SELECT user_id FROM users WHERE login = ?) ' +
@@ -20,6 +20,7 @@ router.post('/', function(req, res, next) {
 				'liked_by_user_id = (SELECT user_id FROM users WHERE login = ?)',
 				[req.body.login, req.session.login], function (error, results, fields) {
 					if (error) throw error;
+
 				});
 			} else {
 				db.query('DELETE FROM likes ' +
@@ -31,7 +32,7 @@ router.post('/', function(req, res, next) {
 			}
 			res.sendStatus(200);
 		});
-		
+
 	} else {
 		res.sendStatus(200);
 	}

@@ -32,7 +32,11 @@ router.get('/', function(req, res, next) {
 			db.query('SELECT interest_name FROM interests INNER JOIN user_interests ON user_interests.interest_id = interests.interest_id WHERE user_interests.user_id = (SELECT user_id FROM users WHERE login = ?)', [req.session.login], function (error, results, fields) {
 				if (error) throw error;
 				userInfo.interests = results.map(r => r.interest_name);
-				res.json(userInfo);
+				db.query('SELECT (SELECT COUNT(*) FROM views WHERE user_id = (SELECT user_id FROM users WHERE login = ?)) AS views, (SELECT COUNT(*) FROM likes WHERE user_id = (SELECT user_id FROM users WHERE login = ?)) AS likes;', [req.session.login, req.session.login], function (error, results) {
+					if (error) throw error;
+					userInfo.popularity = results[0].views === 0 ? 1 : (results[0].likes / results[0].views) * 4 + 1;
+					res.json(userInfo);
+				});
 			});
 		});
 	}

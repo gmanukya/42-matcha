@@ -5,13 +5,16 @@
 	"dependencies": {
 		"geolocator": "^2.1.1",
 		"moment": "^2.20.1",
+		"rc-dropdown": "^2.1.0",
+		"rc-menu": "^6.2.6",
 		"rc-slider": "^8.6.0",
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
 		"react-dropzone": "^4.2.8",
 		"react-router": "^4.2.0",
 		"react-router-dom": "^4.2.2",
-		"react-scripts": "1.1.1"
+		"react-scripts": "1.1.1",
+		"socket.io-client": "^2.0.4"
 	},
 	"scripts": {
 		"start": "react-scripts start",
