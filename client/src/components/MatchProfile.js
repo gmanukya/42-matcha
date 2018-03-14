@@ -111,6 +111,7 @@ class MatchProfile extends React.Component {
 	}
 
 	likeClick() {
+<<<<<<< HEAD
 		this.setState({liked: this.state.liked ? false : true}, () => {
 			fetch('/match/likeProfile', {
 				credentials: 'include',
@@ -133,6 +134,9 @@ class MatchProfile extends React.Component {
 
 	reportUser() {
 		fetch('/match/reportUser', {
+=======
+		fetch('/match/likeProfile', {
+>>>>>>> a9cefc428804b353b2f57775803a650cd5279c6f
 			credentials: 'include',
 			method: 'post',
 			headers: {
@@ -140,6 +144,11 @@ class MatchProfile extends React.Component {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({login: this.props.login})
+<<<<<<< HEAD
+=======
+		}).then(() => {
+			this.setState({liked: this.state.liked ? false : true});
+>>>>>>> a9cefc428804b353b2f57775803a650cd5279c6f
 		});
 		this.setState({report:true});
 	}
@@ -208,6 +217,7 @@ class MatchProfile extends React.Component {
 							}
 						</div>
 						<div className="matchProfileText">
+<<<<<<< HEAD
 							<div>
 								{this.state.gender === 1 ? <i className="fas fa-mars fontBig"></i> : <i className="fas fa-venus fontBig"></i>}
 								<span className="fontBig spaceLeft">
@@ -219,6 +229,14 @@ class MatchProfile extends React.Component {
 										(this.state.likedBy ? <span><i className="fas fa-heart"></i> It's a match !</span> : <span><i className="fas fa-thumbs-up"></i> Liked</span>)
 										:
 										(this.state.likedBy ? <span><i className="far fa-heart"></i> {this.state.gender === 1 ? "He" : "She"} likes you</span> : <span><i className="far fa-thumbs-up"></i> Like</span>)
+=======
+							<h1>
+								<button className="emptyBack" onClick={this.likeClick}>
+									{this.state.liked ?
+										this.state.likedBy ? <i className="fas fa-heart"></i> : <i className="fas fa-thumbs-up"></i>
+									:
+										this.state.likedBy ? <i className="far fa-heart"></i> : <i className="far fa-thumbs-up"></i>
+>>>>>>> a9cefc428804b353b2f57775803a650cd5279c6f
 									}
 								</button>
 								{this.state.liked && this.state.likedBy ? <button className="spaceLeft click" onClick={() => this.changeToChat(true)}><i className="fab fa-facebook-messenger"></i> Chat</button> : null}
